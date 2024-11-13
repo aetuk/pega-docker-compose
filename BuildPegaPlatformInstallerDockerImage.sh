@@ -3,6 +3,8 @@ PEGA_DIST_LOC=./
 #Please update
 PEGA_DIST=118023_Pega_24.2
 #Please update
+DOCKERHUB_ID=dockerhubid
+#Please update
 DOCKER_USER=user
 #Please update
 DOCKER_PASS=pass
@@ -14,7 +16,9 @@ COPY --chown=pegauser:root scripts /opt/pega/kit/scripts
 COPY --chown=pegauser:root archives /opt/pega/kit/archives
 COPY --chown=pegauser:root rules /opt/pega/kit/rules
 # cp dockerfile <local filepath>/<platform>-demo/<pega-distribution-image>
-# docker build -t pega-installer .
-# docker tag pega-installer <your-dockerhub-ID>/pega-installer
+cp dockerfile .
+docker build -t pega-installer .
+docker tag pega-installer $DOCKERHUB_ID/pega-installer
 # wait - create private docker repo
-# docker push <your-dockerhub-ID>/pega-installer
+pause
+docker push $DOCKERHUB_ID/pega-installer
