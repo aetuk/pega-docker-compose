@@ -1,24 +1,20 @@
+PEGA_SOURCE_LOC=/home/aetuk/Downloads/
 #Please update
-PEGA_DIST_LOC=./
+PEGA_DIST_LOC=/home/aetuk/Pega86Temp/
 #Please update
-PEGA_DIST=118023_Pega_24.2
+PEGA_FILE=Pegatest1
 #Please update
 DOCKERHUB_ID=dockerhubid
 #Please update
 DOCKER_USER=user
 #Please update
-DOCKER_PASS=pass
-unzip ${PEGA_DIST}${PEGA_DIST_LOC}.zip
+DOCKER_PASS=password
+unzip ${PEGA_SOURCE_LOC}${PEGA_FILE}.zip -d ${PEGA_DIST_LOC}
 docker login -u $DOCKER_USER -p $DOCKER_PASS
-cd ./$PEGA_DIST/
-FROM pegasystems/pega-installer-ready
-COPY --chown=pegauser:root scripts /opt/pega/kit/scripts
-COPY --chown=pegauser:root archives /opt/pega/kit/archives
-COPY --chown=pegauser:root rules /opt/pega/kit/rules
-# cp dockerfile <local filepath>/<platform>-demo/<pega-distribution-image>
-cp dockerfile .
+cd $PEGA_DIST_LOC/*/
+cp dockerfile $PEGA_DIST_LOC/*/. 
 docker build -t pega-installer .
 docker tag pega-installer $DOCKERHUB_ID/pega-installer
 # wait - create private docker repo
-pause
+read -p "Press enter to continue"
 docker push $DOCKERHUB_ID/pega-installer
