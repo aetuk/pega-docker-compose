@@ -16,5 +16,5 @@ cp dockerfile $PEGA_DIST_LOC/*/.
 docker build -t pega-installer .
 docker tag pega-installer $DOCKERHUB_ID/pega-installer
 # wait - create private docker repo
-read -p "Press enter to continue"
+read -p "Please ensure that your docker hub destination is private. Press enter to continue"
 docker push $DOCKERHUB_ID/pega-installer
