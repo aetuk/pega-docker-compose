@@ -11,9 +11,11 @@ DOCKER_USER=user
 DOCKER_PASS=password
 unzip ${PEGA_SOURCE_LOC}${PEGA_FILE}.zip -d ${PEGA_DIST_LOC}
 docker login -u $DOCKER_USER -p $DOCKER_PASS
-cd $PEGA_DIST_LOC
+cp dockerfile $PEGA_DIST_LOC/
+cp dockerfile $PEGA_DIST_LOC/*/
+cd $PEGA_DIST_LOC/
 cd $PEGA_DIST_LOC/*/
-cp dockerfile . 
+sudo service docker start
 docker build -t pega-installer .
 docker tag pega-installer $DOCKERHUB_ID/pega-installer
 # wait - create private docker repo
