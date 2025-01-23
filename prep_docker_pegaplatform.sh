@@ -1,4 +1,8 @@
 sh pegadockerlogin
-docker pull pega-docker.downloads.pega.com/platform/pega:<latest Infinity version>
-docker tag pega-docker.downloads.pega.com/platform/pega:<latest Infinity version> <Registry host name:Port>/pega:8.8.0-ga
-docker push <Registry host name:Port>/pega:8.8.0-ga
+BUILD_TAG="8.8.0-ga"
+REGISTRY_HOSTNAME="abcd"
+REGISTRY_PORT=1234
+VERSION=1.0.1
+docker pull pega-docker.downloads.pega.com/platform/pega:$VERSION
+docker tag pega-docker.downloads.pega.com/platform/pega:$VERSION $REGISTRY_HOSTNAME:$REGISTRY_PORT/pega:$BUILD_TAG
+docker push $REGISTRY_HOSTNAME:$REGISTRY_PORT/pega:$BUILD_TAG
