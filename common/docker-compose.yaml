@@ -11,7 +11,7 @@ services:
     environment:
       - PUID=1001               #change PUID if needed
       - PGID=1002               #change PGID if needed
-      - TZ=Europe/Berlin        #change Time Zone if needed
+      - TZ=Europe/London        #change Time Zone if needed
       - URL=pega.example.com    #insert your domain name - yourdomain.url
       - VALIDATION=http
       - EMAIL=pega@example.com  #email for notifications
@@ -31,15 +31,6 @@ services:
       - pega_common
     restart: unless-stopped
 
-  constellation87:
-    image: ${CONSTELLATION_RUN_IMAGE_87}
-    volumes:
-      - ./ssl-cert:/host_folder
-    networks:
-      - pega_common
-    command: debug
-    restart: unless-stopped
-
   constellation88:
     image: ${CONSTELLATION_RUN_IMAGE_88}
     volumes:
@@ -49,14 +40,6 @@ services:
     command: debug
     restart: unless-stopped
 
-  constellation86:
-    image: ${CONSTELLATION_RUN_IMAGE_86}
-    volumes:
-      - ./ssl-cert:/host_folder
-    networks:
-      - pega_common
-    command: debug
-    restart: unless-stopped
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
