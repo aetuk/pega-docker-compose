@@ -1,6 +1,6 @@
 sh pegadockerlogin.sh
 REGISTRY_NAME="kuzdune2/installer"
 docker pull pega-docker.downloads.pega.com/platform/installer:
-sh pegaconsuserdockerlogin.sh
+sh pegapegauserdockerlogin.sh
 docker tag pega-docker.downloads.pega.com/platform/installer $REGISTRY_NAME
 docker push $REGISTRY_NAME
