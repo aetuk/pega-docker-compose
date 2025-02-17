@@ -1,14 +1,11 @@
 #!/bin/bash
-# get hostname, tier and start
-cd "$(dirname "$0")"
-PEGA_HOST=$(cat /etc/hostname)
-export PEGA_HOST
-if [[ $PEGA_HOST == *"-cdh" ]]; then
-    export PEGA_TIER=cdh
-    export PEGA_TYPE=ADM,Batch,RealTime,RTDG,Search,BackgroundProcessing
-    export CASSANDRA_CLUSTER=true
-    export CASSANDRA_NODES=cassandra
-    docker compose --profile cdh up -d 
-else
-    docker compose up -d
-fi
+DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+
+#Postgres container db
+docker-compose run pega-install
+
+# Oracle local db
+#docker-compose -f docker-compose-localdb-ora.yml run pega-install
+
+# Postgres local db
+#docker-compose -f docker-compose-localdb-post.yml run pega-install
