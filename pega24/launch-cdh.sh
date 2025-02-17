@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#TODO Start jdbc local server
+
 # get hostname, tier and start
 cd "$(dirname "$0")"
 
