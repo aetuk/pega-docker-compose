@@ -1,0 +1,9 @@
+#!/bin/bash
+# get hostname, tier and start
+cd "$(dirname "$0")"
+
+export PEGA_TIER=cdh
+export PEGA_TYPE=ADM,Batch,RealTime,RTDG,Search,BackgroundProcessing
+export CASSANDRA_CLUSTER=true
+export CASSANDRA_NODES=cassandra
+docker compose --profile cdh up -d 
