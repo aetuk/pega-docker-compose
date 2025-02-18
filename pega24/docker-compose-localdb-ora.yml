@@ -1,9 +1,11 @@
 services:
 
-  cassandra:
+ cassandra:
     image: cassandra:3
     profiles:
       - cdh
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   pega:
@@ -36,6 +38,8 @@ services:
 
     ports:
       - 8080:8080
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   pega-install:
@@ -78,3 +82,8 @@ services:
 
 volumes:
   pgdata:
+
+networks:
+  pega24_net:
+    name: pega_common
+    external: true
