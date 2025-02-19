@@ -9,10 +9,10 @@ DOCKER_LHOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 export DOCKER_LHOST
 
 #Postgres container db
-docker-compose run pega-install
+docker-compose run pega-upgrade
 
 # Oracle local db
-#docker-compose -f docker-compose-localdb-ora.yml run pega-install
+#docker-compose -f docker-compose-localdb-ora.yml run pega-upgrade
 
 # Postgres local db
-#docker-compose -f docker-compose-localdb-post.yml run pega-install
+#docker-compose -f docker-compose-localdb-post.yml run pega-upgrade
