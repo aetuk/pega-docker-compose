@@ -4,9 +4,9 @@
 #  or
 # Type Ctrl+p then Ctrl+q. It will help you to turn interactive mode to daemon mode.
 
-DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+DOCKER_LHOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 
-export DOCKER_HOST
+export DOCKER_LHOST
 
 #Postgres container db
 docker-compose run pega-install

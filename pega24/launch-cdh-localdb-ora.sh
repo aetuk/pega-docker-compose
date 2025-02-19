@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
-export DOCKER_HOST
+DOCKER_LHOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+export DOCKER_LHOST
 
 #TODO Start jdbc local server
 
