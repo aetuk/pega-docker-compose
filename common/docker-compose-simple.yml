@@ -1,0 +1,70 @@
+# common containers shared across all pega instances
+# run $ docker-compose run pdm-install in order to install Pega Deployment Manager before everything else
+
+version: '3.1'
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1001               #change PUID if needed
+      - PGID=1002               #change PGID if needed
+      - TZ=Europe/London        #change Time Zone if needed
+      - URL=pega.example.com    #insert your domain name - yourdomain.url
+      - VALIDATION=http
+      - EMAIL=pega@clo1prpc9  #email for notifications
+      - SUBDOMAINS=clo1prpc91
+    volumes:
+      - ./appdata/swag:/config
+    networks:
+      - pega_common
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    networks:
+      - pega_common
+    restart: unless-stopped
+
+  constellation88:
+    image: ${CONSTELLATION_RUN_IMAGE_88}
+    volumes:
+      - ./ssl-cert:/host_folder
+    networks:
+      - pega_common
+    command: debug
+    restart: unless-stopped
+
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - pega_common
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - pega_common
+    restart: unless-stopped
+
+networks:
+  pega_common:
+    name: pega_common
