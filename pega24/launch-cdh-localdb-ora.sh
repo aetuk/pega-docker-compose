@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+export DOCKER_HOST
+
 #TODO Start jdbc local server
 
 # get hostname, tier and start
@@ -12,4 +15,4 @@ export PEGA_TIER=cdh
 export PEGA_TYPE=ADM,Batch,RealTime,RTDG,Search,BackgroundProcessing
 export CASSANDRA_CLUSTER=true
 export CASSANDRA_NODES=cassandra
-docker compose --profile cdh up -d 
+docker compose -f docker-compose-localdb-ora.yml --profile cdh up -d 
