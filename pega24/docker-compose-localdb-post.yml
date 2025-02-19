@@ -4,6 +4,8 @@ services:
     image: cassandra:3
     profiles:
       - cdh
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   pega:
@@ -36,6 +38,9 @@ services:
 
     ports:
       - 8080:8080
+      
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   pega-install:
@@ -57,6 +62,8 @@ services:
       - DATA_SCHEMA
       - CUSTOMERDATA_SCHEMA
       - ADMIN_PASSWORD
+    networks:
+      - pega24_net
       
   pega-upgrade:
     image: ${PEGA_UPGRADE_IMAGE}
@@ -75,6 +82,13 @@ services:
       - RULES_SCHEMA
       - DATA_SCHEMA
       - CUSTOMERDATA_SCHEMA
+    networks:
+      - pega24_net
 
 volumes:
   pgdata:
+  
+networks:
+  pega24_net:
+    name: pega_common
+    external: true

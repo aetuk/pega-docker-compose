@@ -6,6 +6,8 @@
 
 DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 
+export DOCKER_HOST
+
 #Postgres container db
 docker-compose run pega-install
 
