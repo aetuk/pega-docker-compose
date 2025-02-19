@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ~/Downloads
-tmux new-session -d -s jdbcserver 'python -m http.server 8080'
+tmux new-session -d -s jdbcserver 'python3 -m http.server 8081'
 

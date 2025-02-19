@@ -1,6 +1,6 @@
 services:
 
- cassandra:
+  cassandra:
     image: cassandra:3
     profiles:
       - cdh
