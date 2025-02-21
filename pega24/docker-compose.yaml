@@ -6,12 +6,16 @@ services:
       - POSTGRES_PASSWORD
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   cassandra:
     image: cassandra:3
     profiles:
       - cdh
+    networks:
+      - pega24_net
     restart: unless-stopped
 
   pega:
@@ -43,7 +47,8 @@ services:
       - STREAM_SASL_MECHANISM
       - CASSANDRA_CLUSTER
       - CASSANDRA_NODES
-
+    networks:
+      - pega24_net
     ports:
       - 8080:8080
     restart: unless-stopped
@@ -69,7 +74,8 @@ services:
       - DATA_SCHEMA
       - CUSTOMERDATA_SCHEMA
       - ADMIN_PASSWORD
-      
+    networks:
+      - pega24_net
   pega-upgrade:
     image: ${PEGA_UPGRADE_IMAGE}
     profiles:
@@ -89,6 +95,7 @@ services:
       - RULES_SCHEMA
       - DATA_SCHEMA
       - CUSTOMERDATA_SCHEMA
-
+    networks:
+      - pega24_net
 volumes:
   pgdata:
