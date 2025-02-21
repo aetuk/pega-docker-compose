@@ -99,3 +99,8 @@ services:
       - pega24_net
 volumes:
   pgdata:
+  
+networks:
+  pega24_net:
+    name: pega_common
+    external: true
