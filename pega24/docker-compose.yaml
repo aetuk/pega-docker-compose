@@ -5,13 +5,13 @@ services:
     environment:
       - POSTGRES_PASSWORD
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql@15/data
     networks:
       - pega24_net
     restart: unless-stopped
 
   cassandra:
-    image: cassandra:3
+    image: cassandra:4
     profiles:
       - cdh
     networks:
