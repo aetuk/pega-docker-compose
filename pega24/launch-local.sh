@@ -3,7 +3,8 @@
 DOCKER_LHOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
 export DOCKER_LHOST
 
-#TODO Start jdbc local server
+# Start jdbc local server
+sh ../common/launch-simple-jdbc-server.sh
 
 # get hostname, tier and start
 cd "$(dirname "$0")"
