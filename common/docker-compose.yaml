@@ -67,7 +67,7 @@ services:
     
     
   srs:
-    image: platform-services/search-n-reporting-service:latest
+    image: elasticsearch:7.17.28  
     container_name: pega-srs
     ports:
       - "9200:9200" # Elasticsearch port
