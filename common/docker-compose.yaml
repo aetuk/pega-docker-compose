@@ -64,7 +64,24 @@ services:
     networks:
       - pega_common
     restart: unless-stopped
+    
+    
+  srs:
+    image: platform-services/search-n-reporting-service:latest
+    container_name: pega-srs
+    ports:
+      - "9200:9200" # Elasticsearch port
+      - "9300:9300" # Elasticsearch transport port
+    environment:
+      - discovery.type=single-node
+    networks:
+      - pega_common
+    volumes:
+      - srs-data:/usr/share/elasticsearch/data
 
 networks:
   pega_common:
     name: pega_common
+
+volumes:
+  srs-data:
