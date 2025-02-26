@@ -36,6 +36,7 @@ services:
       - CASSANDRA_CLUSTER
       - CASSANDRA_NODES
       - PEGA_SEARCH_URL=http://pega-srs
+ #     - SEARCH_AND_REPORTING_SERVICE_URL=http://pega-srs
 
     ports:
       - 8080:8080
