@@ -65,9 +65,30 @@ services:
       - pega_common
     restart: unless-stopped
     
+  es01:
+    image: elasticsearch:7.16.3
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - srs-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - pega_common
     
   pega-srs:
-    image: ${SEARCHANDREPORT_RUN_IMAGE} 
+    image: ${SEARCHANDREPORT_RUN_IMAGE}
+    depends_on:
+      - es01    
     container_name: pega-srs
     ports:
       - "9200:9200" # Elasticsearch port
