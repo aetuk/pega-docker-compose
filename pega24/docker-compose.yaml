@@ -47,6 +47,7 @@ services:
       - STREAM_SASL_MECHANISM
       - CASSANDRA_CLUSTER
       - CASSANDRA_NODES
+      - SEARCH_AND_REPORTING_SERVICE_URL=http://pega-srs
     networks:
       - pega24_net
     ports:
