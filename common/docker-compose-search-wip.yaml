@@ -65,14 +65,14 @@ services:
       - pega_common
     restart: unless-stopped
     
-  es01:
+  elasticsearch:
     image: elasticsearch:7.16.3
-    container_name: es01
+    container_name: elasticsearch
     environment:
-      - node.name=es01
+      - node.name=elasticsearch
       - discovery.type=single-node
-#      - cluster.name=es-docker-cluster
-#      - cluster.initial_master_nodes=es01
+#      - cluster.name=elasticsearch-docker-cluster
+#      - cluster.initial_master_nodes=elasticsearch
 #      - bootstrap.memory_lock=true
 #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -89,15 +89,15 @@ services:
   pega-srs:
     image: ${SEARCHANDREPORT_RUN_IMAGE}
     depends_on:
-      - es01    
+      - elasticsearch    
     container_name: pega-srs
      environment:
-       ELASTICSEARCH_HOST: es01
+       ELASTICSEARCH_HOST: elasticsearch
        ELASTICSEARCH_PORT: 9200
        ELASTICSEARCH_PROTO: http
 #       ELASTICSEARCH_AUTH_PROVIDER: basic-authentication
-#       ELASTICSEARCH_USERNAME: es01
-#       ELASTICSEARCH_PASSWORD: es01
+#       ELASTICSEARCH_USERNAME: elasticsearch
+#       ELASTICSEARCH_PASSWORD: elasticsearch
        AUTH_ENABLED: false
        HIGH_SECURE_CRYPTO_MODE_ENABLED: false
     #ports:
