@@ -108,8 +108,6 @@ services:
       #- "9300:9300" # Elasticsearch transport port
     networks:
       - pega_common
-    volumes:
-      - srs-data:/usr/share/elasticsearch/data
 
 networks:
   pega_common:
