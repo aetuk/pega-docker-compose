@@ -100,7 +100,10 @@ services:
 #       ELASTICSEARCH_PASSWORD: elasticsearch
        AUTH_ENABLED: false
        HIGH_SECURE_CRYPTO_MODE_ENABLED: false
-    #ports:
+       APPLICATION_PORT: 8082
+       APPLICATION_HOST: 0.0.0.0
+    ports:
+       - 8082:8082 # Web port
       #- "9200:9200" # Elasticsearch port
       #- "9300:9300" # Elasticsearch transport port
     networks:

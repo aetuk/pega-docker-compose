@@ -35,7 +35,7 @@ services:
       - STREAM_SASL_MECHANISM
       - CASSANDRA_CLUSTER
       - CASSANDRA_NODES
-
+      - SEARCH_AND_REPORTING_SERVICE_URL=http://pega-srs:8082
     ports:
       - 8080:8080
     networks:
