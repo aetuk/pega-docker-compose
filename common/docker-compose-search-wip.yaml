@@ -70,10 +70,11 @@ services:
     container_name: es01
     environment:
       - node.name=es01
-      - cluster.name=es-docker-cluster
-      - cluster.initial_master_nodes=es01
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+#      - cluster.name=es-docker-cluster
+#      - cluster.initial_master_nodes=es01
+#      - bootstrap.memory_lock=true
+#     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
@@ -94,11 +95,14 @@ services:
        ELASTICSEARCH_HOST: es01
        ELASTICSEARCH_PORT: 9200
        ELASTICSEARCH_PROTO: http
-    ports:
+#       ELASTICSEARCH_AUTH_PROVIDER: basic-authentication
+#       ELASTICSEARCH_USERNAME: es01
+#       ELASTICSEARCH_PASSWORD: es01
+       AUTH_ENABLED: false
+       HIGH_SECURE_CRYPTO_MODE_ENABLED: false
+    #ports:
       #- "9200:9200" # Elasticsearch port
-      - "9300:9300" # Elasticsearch transport port
-    environment:
-      - discovery.type=single-node
+      #- "9300:9300" # Elasticsearch transport port
     networks:
       - pega_common
     volumes:
