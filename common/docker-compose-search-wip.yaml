@@ -90,8 +90,12 @@ services:
     depends_on:
       - es01    
     container_name: pega-srs
+     environment:
+       ELASTICSEARCH_HOST: es01
+       ELASTICSEARCH_PORT: 9200
+       ELASTICSEARCH_PROTO: http
     ports:
-      - "9200:9200" # Elasticsearch port
+      #- "9200:9200" # Elasticsearch port
       - "9300:9300" # Elasticsearch transport port
     environment:
       - discovery.type=single-node
