@@ -1,7 +1,6 @@
 # common containers shared across all pega instances
 # run $ docker-compose run pdm-install in order to install Pega Deployment Manager before everything else
 
-version: '3.1'
 services:
   swag:
     image: linuxserver/swag
@@ -68,6 +67,10 @@ services:
   elasticsearch:
     image: elasticsearch:7.16.3
     container_name: elasticsearch
+    healthcheck:
+      interval: 10s
+       retries: 80
+       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/
     environment:
       - node.name=elasticsearch
       - discovery.type=single-node
@@ -89,7 +92,8 @@ services:
   pega-srs:
     image: ${SEARCHANDREPORT_RUN_IMAGE}
     depends_on:
-      - elasticsearch    
+      - elasticsearch
+        condition: service_healthy      
     container_name: pega-srs
      environment:
        ELASTICSEARCH_HOST: elasticsearch
