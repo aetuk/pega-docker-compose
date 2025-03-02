@@ -68,9 +68,9 @@ services:
     image: elasticsearch:7.16.3
     container_name: elasticsearch
     healthcheck:
-      interval: 10s
-       retries: 80
-       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/
+      interval: 5s
+      retries: 20
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/
     environment:
       - node.name=elasticsearch
       - discovery.type=single-node
@@ -92,7 +92,7 @@ services:
   pega-srs:
     image: ${SEARCHANDREPORT_RUN_IMAGE}
     depends_on:
-      - elasticsearch
+      elasticsearch:
         condition: service_healthy      
     container_name: pega-srs
      environment:
