@@ -8,6 +8,8 @@ services:
       - pgdata:/var/lib/postgresql@15/data
     networks:
       - pega24_net
+    ports:
+      - 5432:5432
     restart: unless-stopped
 
   cassandra:
