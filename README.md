@@ -16,12 +16,18 @@ Following images are required to proceed:
 
 ### SSH to the server and clone repo:
 ```
-# git clone https://github.com/Virusmater/pega-docker-compose.git
+# git clone https://github.com/aetuk/pega-docker-compose.git
 ```
-### Setup Docker & Docker Compose
+### Prepare part 1 - Setup Docker & Docker Compose
 https://docs.docker.com/engine/install/
 
 https://docs.docker.com/compose/install/
+
+
+### Prepare part 2 - Download images
+
+1. Run script 
+2. Run command : docker images, to validate that all the images are in your system  
 
 Login into your docker registry, e.g Docker Hub, where you have Pega and Constellation Images.
 
