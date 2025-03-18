@@ -8,7 +8,7 @@ Following images are required to proceed:
 * Constellation UI - `CONSTELLATION_RUN_IMAGE` ([how to get an image](https://docs.pega.com/user-experience-cosmos-react/87/installing-constellation-using-docker))
 
 ## Step-by-step guide
-### Make DNS records for domain and subdomains:
+### Make DNS records for domain and subdomains (Optional):
 * constellation`[version]`.`[domain]`
 * pega`[version]`-web.`[domain]`
 * pega`[version]`-cdh.`[domain]` (if need CDH)
@@ -37,7 +37,7 @@ Login into your docker registry, e.g Docker Hub, where you have Pega and Constel
 2. Edit `docker-compose.yml`
    * Change `URL` to your domain name
    * Change `EMAIL` to your email
-   * Change `SUBDOMAINS` to subdomains you created DNS records for, e.g `pega87-web,pega87-cdh,constellation87,pdm`
+   * Change `SUBDOMAINS` to subdomains you created DNS records for, e.g `pega24-web,pega24-cdh,constellation88,pdm`
 
 3. Run `$ docker-compose up -d`
 4. Check `$ docker logs swag -f` to see if there any errors
@@ -47,7 +47,7 @@ Login into your docker registry, e.g Docker Hub, where you have Pega and Constel
 
 ### Install Basic Pega
 1. `cd pega-docker-compose/pega[version]/`
-2. Edit `.env`. Password with special characters were breaking installation, so try without them.
+2. Edit `.env`. Leave the default password or us passwords Without special characters
     * POSTGRES_PASSWORD=SomeGeneratedPassword
     * ADMIN_PASSWORD=SomeGeneratedPassword
     * PEGA_INSTALL_IMAGE=ImageYouBuildAndPushed
@@ -58,7 +58,7 @@ Login into your docker registry, e.g Docker Hub, where you have Pega and Constel
 7. Login using administrator@pega.com with password from `.env`
 8. Update `ConstellationPegaStaticURL` DSS to `https://release.constellation.pega.io`
 9. Update `ConstellationSvcURL` DSS to `https://constellation[version].[domain]/c11n-appstatic`
-10. `$ docker restart pega[version]-web`
+10. `$ docker restart pega[version]-[web/cdh]`
 11. Clean cache and cookies just to be sure
 
 You can finish there
@@ -98,9 +98,12 @@ Contains:
 Before the first run Pega should be installed to the databases by running 
 
 ```
+$ sh install.sh
+```
+ or
+```
 $ docker-compose run pega[version]-web-install
 $ docker-compose --profile cdh run pega[version]-cdh-install
-
 ```
 
 ### Web and CDH instances
