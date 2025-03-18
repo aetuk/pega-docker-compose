@@ -26,8 +26,8 @@ https://docs.docker.com/compose/install/
 
 ### Prepare part 2 - Download images
 
-1. Run script 
-2. Run command : docker images, to validate that all the images are in your system  
+1. Run script  ```# sh prep_docker_download_all.sh```
+2. Run command ```# docker images```, to validate that all the images are in your system  
 
 Login into your docker registry, e.g Docker Hub, where you have Pega and Constellation Images.
 
