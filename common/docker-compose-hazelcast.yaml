@@ -1,0 +1,129 @@
+---
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1001
+      - PGID=1002
+      - TZ=Europe/London
+      - URL=pega.example.com
+      - VALIDATION=http
+      - EMAIL=pega@example.com
+      - SUBDOMAINS=pega87-web,pega87-cdh,pega86-web,pega86-cdh,constellation87,constellation86,pdm,pega823-web,constellation823
+    volumes:
+      - ./appdata/swag:/config
+    networks:
+      - pega_common
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+  adminer:
+    image: adminer
+    networks:
+      - pega_common
+    restart: unless-stopped
+  constellation88:
+    image: ${CONSTELLATION_RUN_IMAGE_88}
+    volumes:
+      - ./ssl-cert:/host_folder
+    networks:
+      - pega_common
+    command: debug
+    restart: unless-stopped
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - pega_common
+    restart: unless-stopped
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - pega_common
+    restart: unless-stopped
+  elasticsearch:
+    image: elasticsearch:7.16.3
+    container_name: elasticsearch
+    healthcheck:
+      interval: 5s
+      retries: 20
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null
+        http://localhost:9200/
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+#      - cluster.name=elasticsearch-docker-cluster
+#      - cluster.initial_master_nodes=elasticsearch
+#      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - srs-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - pega_common
+  pega-srs:
+    image: ${SEARCHANDREPORT_RUN_IMAGE}
+    container_name: pega-srs
+    environment:
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: 9200
+      ELASTICSEARCH_PROTO: http
+      AUTH_ENABLED: 'false'
+      HIGH_SECURE_CRYPTO_MODE_ENABLED: 'false'
+      APPLICATION_PORT: 8082
+      APPLICATION_HOST: 0.0.0.0
+    ports:
+      - 8082:8082
+    networks:
+      - pega_common
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+        
+        
+  hazelcast:
+    image: <uploaded image location hostname:port/filepath/image-name:tag>
+    ports:
+      - '<HZ_PORT-mem1>:<HZ_PORT-mem1>'
+      - '<HZ_SERVER_PORT-port-mem1>:<HZ_SERVER_PORT-port-mem1>'
+      - '<HZ_HEALTH_CHECK_PORT-mem1>:<HZ_HEALTH_CHECK_PORT-mem1>' 
+    environment:
+      JAVA_OPTS=$JAVA_OPTS -Dhazelcast.local.publicAddress=<HzlcastServ-member1-IPaddr>:<HZ_PORT-mem1>      
+      MEMBERS_IP=<HzlcastServ-member1-IPaddr>:<HZ_SERVER_PORT-port-mem1> 
+      HZ_PORT=<HZ_PORT-mem1>
+      HZ_SERVER_PORT=<HZ_SERVER_PORT-port-mem1>
+      HZ_HEALTH_CHECK_PORT=<HZ_HEALTH_CHECK_PORT-mem1>
+      ON_PREM_ENABLED=true
+      ENCRYPTION_ENABLED=true
+      CS_AUTH_USERNAME=<HzlcastServ-username>
+      CS_AUTH_PASSWORD=<HzlcastServ-username>
+    volumes:
+      - v <host-filepath>:<container-filepath>
+    networks:
+      - pega_common
+      
+networks:
+  pega_common:
+    name: pega_common
+volumes:
+  srs-data:
