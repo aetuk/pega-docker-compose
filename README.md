@@ -7,7 +7,7 @@ For production ready setup based on k8s please follow instructions prodived by P
 Following images are required to proceed:
 * Pega Install - `PEGA_INSTALL_IMAGE`  ([how to build an install image]( https://github.com/pegasystems/pega-helm-charts/blob/master/docs/building-your-own-Pega-installer-image.md))
 * Pega - `PEGA_RUN_IMAGE` (publicly available on docker hub)
-* Constellation UI - `CONSTELLATION_RUN_IMAGE` ([how to get an image](https://docs.pega.com/user-experience-cosmos-react/87/installing-constellation-using-docker))
+* Constellation UI - `CONSTELLATION_RUN_IMAGE` ([how to get an image](https://documents.constellation.pega.io/static/86-87/constellationui-static-service-docker.html))
 
 ## Step-by-step guide
 ### Make DNS records for domain and subdomains (Optional):
