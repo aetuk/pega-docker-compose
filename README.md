@@ -1,5 +1,7 @@
 # pega-docker-compose
-Docker-compose files that will help you install Pega environment for your development, non-production needs. For production ready setup based on k8s please follow instructions prodived by Pegasystems: [pega-helm-charts](https://github.com/pegasystems/pega-helm-charts)
+Docker-compose files that will help you install Pega environment for your development, non-production needs. 
+For environments where 1 containers = 1 machine this works great. Please validate and test before using as your new production environment. 
+For production ready setup based on k8s please follow instructions prodived by Pegasystems: [pega-helm-charts](https://github.com/pegasystems/pega-helm-charts)
 
 ## Building images
 Following images are required to proceed:
