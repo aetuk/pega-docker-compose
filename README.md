@@ -1,6 +1,6 @@
 # pega-docker-compose
 Docker-compose files that will help you install Pega environment for your development, non-production needs. 
-For environments where 1 containers = 1 machine this works great. Please validate and test before using as your new production environment. 
+For environments where 1 vm container = 1 pega instance this works great. Please validate and test before using as your new production environment. 
 For production ready setup based on k8s please follow instructions prodived by Pegasystems: [pega-helm-charts](https://github.com/pegasystems/pega-helm-charts)
 
 ## Building images
@@ -11,9 +11,9 @@ Following images are required to proceed:
 
 ## Step-by-step guide
 ### Make DNS records for domain and subdomains (Optional):
-* constellation`[version]`.`[domain]`
-* pega`[version]`-web.`[domain]`
-* pega`[version]`-cdh.`[domain]` (if need CDH)
+* constellation.`[domain]`
+* pega-web.`[domain]`
+* pega-cdh.`[domain]` (if need CDH)
 * pdm.`[domain]` (if need PDM)
 
 ### SSH to the server and clone repo:
@@ -48,12 +48,12 @@ Login into your docker registry, e.g Docker Hub, where you have Pega and Constel
 
 
 ### Install Basic Pega
-1. `cd pega-docker-compose/pega[version]/`
-2. Edit `.env`. Leave the default password or us passwords Without special characters
+1. `cd pega-docker-compose/pega24/`
+2. Edit `.env`. Leave the default password or us passwords Without special characters (For postgre db copy example .env.post.example file - .env.ora.example for oracle)
     * POSTGRES_PASSWORD=SomeGeneratedPassword
     * ADMIN_PASSWORD=SomeGeneratedPassword
     * PEGA_INSTALL_IMAGE=ImageYouBuildAndPushed
-3. `# docker-compose run pega[version]-web-install`. It will take around 20-30 minutes.
+3. `# . install.sh`. It will take around 20-30 minutes.
 4. `# docker-compose up -d`
 5. `$ cp *.conf ../common/appdata/swag/nginx/proxy-confs`
 6. `$ docker restart swag`
