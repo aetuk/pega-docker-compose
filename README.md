@@ -39,7 +39,7 @@ Login into your docker registry, e.g Docker Hub, where you have Pega and Constel
 2. Edit `docker-compose.yml`
    * Change `URL` to your domain name
    * Change `EMAIL` to your email
-   * Change `SUBDOMAINS` to subdomains you created DNS records for, e.g `pega24-web,pega24-cdh,constellation88,pdm`
+   * Change `SUBDOMAINS` to subdomains you created DNS records for, e.g `pega[version]-web,pega24-cdh,constellation88,pdm`
 
 3. Run `$ docker-compose up -d`
 4. Check `$ docker logs swag -f` to see if there any errors
