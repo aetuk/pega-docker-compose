@@ -1,0 +1,109 @@
+services:
+
+  pega-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_PASSWORD
+    volumes:
+      - pgdata:/var/lib/postgresql@15/data
+    networks:
+      - pega24_net
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+  cassandra:
+    image: cassandra:3
+    profiles:
+      - cdh
+    networks:
+      - pega24_net
+    restart: unless-stopped
+
+  pega:
+    image: ${PEGA_RUN_IMAGE}
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    container_name: ${CONTAINER_NAME}
+    depends_on:
+      - "pega-db"
+    environment:
+      - JDBC_URL=jdbc:postgresql://pega-db:5432/postgres
+      - NODE_TYPE
+      - NODE_TIER
+      - JDBC_DRIVER_URI
+      - DB_TYPE
+      - JDBC_CLASS
+      - DB_USERNAME
+      - DB_PASSWORD
+      - RULES_SCHEMA
+      - DATA_SCHEMA
+      - CUSTOMERDATA_SCHEMA
+      - ADMIN_PASSWORD
+      - EXTERNAL_STREAM
+      - STREAM_BOOTSTRAP_SERVERS
+      - STREAM_NAME_PATTERN
+      - STREAM_SECURITY_PROTOCOL
+      - STREAM_SASL_MECHANISM
+      - CASSANDRA_CLUSTER
+      - CASSANDRA_NODES
+      - SEARCH_AND_REPORTING_SERVICE_URL=http://pega-srs:8082
+    networks:
+      - pega24_net
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
+  pega-install:
+    image: ${PEGA_INSTALL_IMAGE}
+    depends_on:
+      - "pega-db"
+    profiles:
+      - install
+    environment:
+      - ACTION=install
+      - SYSTEM_NAME=pegaweb
+      - PRODUCTION_LEVEL=2
+      - BYPASS_UDF_GENERATION=true
+      - JDBC_URL=jdbc:postgresql://pega-db:5432/postgres
+      - JDBC_DRIVER_URI
+      - DB_TYPE
+      - JDBC_CLASS
+      - DB_USERNAME
+      - DB_PASSWORD
+      - RULES_SCHEMA
+      - DATA_SCHEMA
+      - CUSTOMERDATA_SCHEMA
+      - ADMIN_PASSWORD
+    networks:
+      - pega24_net
+  pega-upgrade:
+    image: ${PEGA_UPGRADE_IMAGE}
+    profiles:
+      - upgrade
+    depends_on:
+      - "pega-db"
+    environment:
+      - ACTION=upgrade
+      - UPGRADE_TYPE=in-place
+      - BYPASS_UDF_GENERATION=true
+      - JDBC_URL=jdbc:postgresql://pega-db:5432/postgres
+      - JDBC_DRIVER_URI
+      - DB_TYPE
+      - JDBC_CLASS
+      - DB_USERNAME
+      - DB_PASSWORD
+      - RULES_SCHEMA
+      - DATA_SCHEMA
+      - CUSTOMERDATA_SCHEMA
+    networks:
+      - pega24_net
+volumes:
+  pgdata:
+  
+networks:
+  pega24_net:
+    name: pega_common
+    external: true
